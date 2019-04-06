@@ -75,6 +75,17 @@ class flickr15k_dataset(Dataset):
     def __len__(self):
         return len(self.datapath)
 
+    def get_single_img_edge(self, idx):
+        img_edge = self.datapath[idx]
+        cls_name = img_edge[0]
+        cls_num = img_edge[1]
+        path = img_edge[2]
+        name = img_edge[3]
+        img_edge_src = Image.open(path).convert('RGB')
+        img_edge_src = self.transforms(img_edge_src)
+        return img_edge_src, img_edge
+
+
 def random_select_sketch(cls_num, sketch_set_path):
     """select sketch randomly"""
     """flickr15K has 10 users"""
@@ -99,6 +110,17 @@ def init_flickr15k_dataloader(batchSize, img_size):
     print(f'val set: {len(test_loader.dataset)}')
 
     return train_loader, test_loader
+
+def init_flickr15k_dataset(img_size):
+    """load dataset"""
+    normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+    transform = transforms.Compose([
+        # transforms.RandomHorizontalFlip(),
+        transforms.Resize((img_size, img_size)),
+        transforms.ToTensor(),
+        normalize
+    ])
+    return flickr15k_dataset(train=False, transforms=transform)
 
 if __name__ == '__main__':
     test_set = flickr15k_dataset(train=False)
