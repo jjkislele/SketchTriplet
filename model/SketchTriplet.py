@@ -271,3 +271,12 @@ class SketchTriplet(nn.Module):
         feat_p = self.posSeq(self.pos_src)
         feat_n = self.negSeq(self.neg_src)
         return feat_a, feat_p, feat_n
+
+    def get_branch_a(self, x):
+        return self.ancSeq(x)
+
+    def get_branch_p(self, x):
+        return self.posSeq(x)
+
+    def get_branch_n(self, x):
+        return self.negSeq(x)

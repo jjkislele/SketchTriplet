@@ -1,6 +1,9 @@
 import os
 
-from SketchTriplet import *
+import torch.nn as nn
+from model.SketchTriplet import SketchTriplet
+from model.SketchTriplet_half_sharing import SketchTriplet as SketchTriplet_hs
+from model.SketchTriplet_half_sharing import BranchNet
 from utils import *
 from flickr15k_dataset import init_flickr15k_dataloader
 
@@ -36,7 +39,8 @@ os.makedirs(outf, exist_ok=True)
 feed_random_seed()
 train_loader, test_loader = init_flickr15k_dataloader(batchSize, img_size)
 # setup net ---------------------------------
-model = SketchTriplet()
+branch_net = BranchNet()
+model = SketchTriplet_hs(branch_net)
 model = model.cuda()
 criterion = nn.TripletMarginLoss(margin=1.0, p=2.0)
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-3, weight_decay=0.0005, momentum=0.9)
@@ -50,6 +54,7 @@ for epoch in range(resume_epoch+1, niter+1):
     fid.write('[%d/%d] train loss: %f\n' % (epoch, niter, train_loss))
 
     if epoch % checkpoint == 0:
+        # no eval ???
         # save checkpoints
         torch.save(model.state_dict(), os.path.join(outf, f'{epoch:03d}.pth'))
 

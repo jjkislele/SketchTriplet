@@ -1,19 +1,23 @@
 import os
 import os.path
-import torchvision.transforms as transforms
 from random import choice
+import random
 from PIL import Image
+import torchvision.transforms as transforms
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
 class flickr15k_dataset(Dataset):
-    def __init__(self, train=True, transforms=None):
-        self.root = '../deep_hashing/dataset/Flickr_15K_edge2'
-        self.gt_path = '../deep_hashing/groundtruth'
+    def __init__(self, train=True, root='../deep_hashing', transforms=None):
+        self.root = root
+        self.gt_path = os.path.join(self.root, 'groundtruth')
+        self.img_set_path = os.path.join(self.root, 'dataset/Flickr_15K_edge2')
+        self.sketch_set_path = os.path.join(self.root, 'dataset/330sketches')
         self.gt = {}
         self.transforms = transforms
 
         for i in range(1, 34):
+            """flickr15k has 34 classes, dump way"""
             self.gt[str(i)] = []
         file = open(self.gt_path)
         for line in file:
@@ -21,7 +25,7 @@ class flickr15k_dataset(Dataset):
             img_path = line.split()[1][:-4] + '.jpg'
             img_cls = img_path.split('/')[0]
             img_name = img_path.split('/')[1][:-4]
-            img_path = os.path.join(self.root, img_path)
+            img_path = os.path.join(self.img_set_path, img_path)
             # check img exist
             if os.path.exists(img_path):
                 self.gt[sketch_cls].append((img_path, img_cls, img_name))
@@ -38,21 +42,23 @@ class flickr15k_dataset(Dataset):
                 self.datapath.append((fn[1], item, fn[0], fn[2]))
 
     def __getitem__(self, idx):
+        # select anchor -> sketch
         anc_fn = self.datapath[idx]
         cls_name_a = anc_fn[0]
         cls_num_a = anc_fn[1]
         anc_path = anc_fn[2]
         anc_name = anc_fn[3]
-        img_a = Image.open(anc_path).convert('RGB')
+        sketch_path = random_select_sketch(cls_num_a, self.sketch_set_path)
+        img_a = Image.open(sketch_path).convert('RGB')
 
-        # select pos
+        # select pos    -> photography edge(preprocessed by Canny edge detection)
         pos_fn = self.gt[cls_num_a][choice([i for i in range(0, len(self.gt[cls_num_a])) if i not in [int(anc_name)]])]
         cls_name_p = pos_fn[1]
         cls_num_p = cls_num_a
         pos_path = pos_fn[0]
         pos_name = pos_fn[2]
         img_p = Image.open(pos_path).convert('RGB')
-        # select neg
+        # select neg    -> photography edge
         cls_num_n = str(choice([i for i in range(1,len(self.gt)+1) if i not in [cls_num_a]]))
         neg_fn = self.gt[cls_num_n][choice([i for i in range(0, len(self.gt[cls_num_n]))])]
         cls_name_n = neg_fn[1]
@@ -68,6 +74,13 @@ class flickr15k_dataset(Dataset):
 
     def __len__(self):
         return len(self.datapath)
+
+def random_select_sketch(cls_num, sketch_set_path):
+    """select sketch randomly"""
+    """flickr15K has 10 users"""
+    user_select = str(random.randint(1,10))
+    sketch_path = os.path.join(sketch_set_path, user_select, (cls_num+'.png'))
+    return sketch_path
 
 def init_flickr15k_dataloader(batchSize, img_size):
     """load dataset"""
