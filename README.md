@@ -11,9 +11,9 @@ I consult the [original codes](https://github.com/TuBui/Triplet_Loss_SBIR/blob/m
 ## Code Structure
 
 ## Todo List
-* [] Modified triplet loss function mentioned by the paper
-* [] Eval process 
-* [] Some silly code
+* [ ] Modified triplet loss function mentioned by the paper
+* [ ] Eval process 
+* [ ] Some silly code
 
 # Reference and Special Thanks
 
