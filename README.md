@@ -12,7 +12,7 @@ I consult the [original codes](https://github.com/TuBui/Triplet_Loss_SBIR/blob/m
 
 ## Todo List
 * [ ] Modified triplet loss function mentioned by the paper
-* [ ] Eval process 
+* [ ] Eval process. 75% for training, 25% for evaluationg at least
 * [ ] Some silly code
 
 # Reference and Special Thanks
