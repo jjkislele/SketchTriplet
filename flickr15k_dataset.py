@@ -17,7 +17,7 @@ class flickr15k_dataset(Dataset):
         self.transforms = transforms
 
         for i in range(1, 34):
-            """flickr15k has 34 classes, dump way"""
+            """flickr15k has 33 classes, silly way"""
             self.gt[str(i)] = []
         file = open(self.gt_path)
         for line in file:
@@ -40,6 +40,13 @@ class flickr15k_dataset(Dataset):
                 # f[1]: class name
                 # f[2]: file name
                 self.datapath.append((fn[1], item, fn[0], fn[2]))
+
+        self.sketch_datapath = []
+        for i in range(1, 11):
+            for j in range(1, 34):
+                cls_name = self.gt[str(j)][0][1]
+                abs_path = os.path.join(self.sketch_set_path, str(i), (str(j)+'.png'))
+                self.sketch_datapath.append((cls_name, str(j), abs_path, str(j)))
 
     def __getitem__(self, idx):
         # select anchor -> sketch
@@ -84,6 +91,16 @@ class flickr15k_dataset(Dataset):
         img_edge_src = Image.open(path).convert('RGB')
         img_edge_src = self.transforms(img_edge_src)
         return img_edge_src, img_edge
+
+    def get_single_sketch(self, idx):
+        sketch = self.sketch_datapath[idx]
+        cls_name = sketch[0]
+        cls_num = sketch[1]
+        path = sketch[2]
+        name = sketch[3]
+        sketch_src = Image.open(path).convert('RGB')
+        sketch_src = self.transforms(sketch_src)
+        return sketch_src, sketch
 
 
 def random_select_sketch(cls_num, sketch_set_path):
