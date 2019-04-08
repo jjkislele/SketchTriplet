@@ -28,30 +28,16 @@ def timing(f):
     return wrapper
 
 
-def compute_result(dataloader, net):
-    bs, clses = [], []
-    net.eval()
-    for img, cls, name in dataloader:
-        clses.append(cls)
-        bs.append(net(Variable(img.cuda(), volatile=True)).data.cpu())
-    return torch.sign(torch.cat(bs)), torch.cat(clses)
-
-
 @timing
-def compute_mAP(trn_binary, tst_binary, trn_label, tst_label):
+def compute_AP(cls_num_s, order_cls_num_p):
     """
-    compute mAP by searching testset from trainset
-    https://github.com/flyingpot/pytorch_deephash
+    compute precision, recall and mAP from 330sketches
+    all methods are based on [SHREC14-Sketch](https://www.itl.nist.gov/iad/vug/sharp/contest/2014/SBR/Evaluation.html)
     """
-    for x in trn_binary, tst_binary, trn_label, tst_label: x.long()
 
-    AP = []
-    Ns = torch.arange(1, trn_binary.size(0) + 1)
-    for i in range(tst_binary.size(0)):
-        query_label, query_binary = tst_label[i], tst_binary[i]
-        _, query_result = torch.sum((query_binary != trn_binary).long(), dim=1).sort()
-        correct = (query_label == trn_label[query_result]).float()
-        P = torch.cumsum(correct, dim=0) / Ns
-        AP.append(torch.sum(P * correct) / torch.sum(correct))
-    mAP = torch.mean(torch.Tensor(AP))
-    return mAP
+    Ns = range(1, len(order_cls_num_p) + 1)
+    correct = (cls_num_s == order_cls_num_p).cumsum()
+    P = correct / Ns
+    AP = np.sum(P * correct) / sum(correct)
+
+    return AP
