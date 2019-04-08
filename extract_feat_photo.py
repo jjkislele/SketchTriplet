@@ -50,5 +50,5 @@ for i in range(len(flickr15k_dataset)):
     out_name.append(name)
     print(f"[{i}/{len(flickr15k_dataset)}] ('{cls_name}', '{cls_num}', '{name}') completed")
 
-np.savez(os.path.join(outf, 'feat.npz'), feat=out, cls_name=cls_name, cls_num=cls_num, path=path, nane=name)
+np.savez(os.path.join(outf, 'feat.npz'), feat=out, cls_name=out_cls_name, cls_num=out_cls_num, path=out_path, name=out_name)
 print("Done!")
