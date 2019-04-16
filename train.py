@@ -14,6 +14,7 @@ outf = 'out/flickr15k_'         # folder to output model checkpoints
 outf = outf + time.strftime('%y%m%d%H%M', time.localtime(time.time()))
 checkpoint = 50                 # checkpointing after batches
 img_size = 256                  # resize the input image to square
+root = '../deep_hashing'        # root path for dataset
 # ---------------------------------
 
 def train(epoch, dataloader, net, optimizer):
@@ -37,7 +38,7 @@ def train(epoch, dataloader, net, optimizer):
 os.makedirs('out', exist_ok=True)
 os.makedirs(outf, exist_ok=True)
 feed_random_seed()
-train_loader, test_loader = init_flickr15k_dataloader(batchSize, img_size)
+train_loader, test_loader = init_flickr15k_dataloader(batchSize, img_size, root)
 # setup net ---------------------------------
 branch_net = BranchNet()
 model = SketchTriplet_hs(branch_net)

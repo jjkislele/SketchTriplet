@@ -110,7 +110,7 @@ def random_select_sketch(cls_num, sketch_set_path):
     sketch_path = os.path.join(sketch_set_path, user_select, (cls_num+'.png'))
     return sketch_path
 
-def init_flickr15k_dataloader(batchSize, img_size):
+def init_flickr15k_dataloader(batchSize, img_size, root):
     """load dataset"""
     normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
     transform = transforms.Compose([
@@ -119,10 +119,10 @@ def init_flickr15k_dataloader(batchSize, img_size):
         transforms.ToTensor(),
         normalize
     ])
-    train_loader = DataLoader(flickr15k_dataset(train=True, transforms=transform),
+    train_loader = DataLoader(flickr15k_dataset(train=True, transforms=transform, root=root),
                               batch_size=batchSize, shuffle=True, num_workers=4, pin_memory=True)
     print(f'train set: {len(train_loader.dataset)}')
-    test_loader = DataLoader(flickr15k_dataset(train=False, transforms=transform),
+    test_loader = DataLoader(flickr15k_dataset(train=False, transforms=transform, root=root),
                              batch_size=batchSize, shuffle=False, num_workers=4, pin_memory=True)
     print(f'val set: {len(test_loader.dataset)}')
 
