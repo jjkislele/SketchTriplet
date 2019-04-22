@@ -80,7 +80,7 @@ Some Parameters are shown as follows:
 After 500 epochs of training, here are the pr curve we get for testing set.
 
 <p align="center">
-    <img src="https://github.com/jjkislele/SketchTriplet/accessory/pr_curve.png"
+    <img src="https://github.com/jjkislele/SketchTriplet/blob/master/accessory/pr_curve.png" width="300" height="300">
     <p align="center">
         <em>Pr curve for testing</em>
     </p>
@@ -89,7 +89,7 @@ After 500 epochs of training, here are the pr curve we get for testing set.
 Also the loss curve during training is shown as follows.
 
 <p align="center">
-    <img src="https://github.com/jjkislele/SketchTriplet/accessory/loss.png"
+    <img src="https://github.com/jjkislele/SketchTriplet/blob/master/accessory/loss.png" width="300" height="300">
     <p align="center">
         <em>Loss curve during training</em>
     </p>
