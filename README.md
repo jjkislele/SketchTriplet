@@ -79,11 +79,21 @@ Some Parameters are shown as follows:
     
 After 500 epochs of training, here are the pr curve we get for testing set.
 
-![Pr curve for testing](./accessory/pr_curve.png)
+<p align="center">
+    <img src="https://github.com/jjkislele/SketchTriplet/accessory/pr_curve.png"
+    <p align="center">
+        <em>Pr curve for testing</em>
+    </p>
+</p>
 
 Also the loss curve during training is shown as follows.
 
-![Loss curve for training](./accessory/loss.pdf)
+<p align="center">
+    <img src="https://github.com/jjkislele/SketchTriplet/accessory/loss.png"
+    <p align="center">
+        <em>Loss curve during training</em>
+    </p>
+</p>
 
 Although it scores 67.7% mAP indicating just-so-so performance, the pr curve shows the model is over-fitting.
 
