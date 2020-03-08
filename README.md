@@ -16,7 +16,7 @@ The network seems able to reproduce the results though, there is still much room
 - anaconda 4.4.10 recommend
 
 ## How to Run
-First, the pretrained model based on Flickr15k can be downloaded [here](). And the dataset ***Flickr15k*** can be downloaded [here](https://drive.google.com/open?id=13AFiwNh4FMks_jGfL4UDntMf0lHL6BTQ).
+First, the pretrained model based on Flickr15k can be downloaded [here](https://drive.google.com/open?id=1oUDCTENBzdBok7rjB_B8zHE3mwdw_0ve). And the dataset ***Flickr15k*** can be downloaded [here](https://drive.google.com/open?id=13AFiwNh4FMks_jGfL4UDntMf0lHL6BTQ).
 Canny edge detection procedure should be carried out to produce images' edge maps.
 
 Second, you should modify the root path to ***Flickr15k*** at ``./train.py``.
