@@ -17,6 +17,7 @@ img_size = 256                  # resize the input image to square
 root = '../deep_hashing'        # root path for dataset
 # ---------------------------------
 
+
 def train(epoch, dataloader, net, optimizer):
     accum_loss = 0
     net.train()
@@ -33,6 +34,7 @@ def train(epoch, dataloader, net, optimizer):
 
         print(f'[{epoch}][{i}/{len(dataloader)}] loss: {loss.data[0]:.4f}')
     return accum_loss / len(dataloader)
+
 
 # setup dataloader ---------------------------------
 os.makedirs('out', exist_ok=True)

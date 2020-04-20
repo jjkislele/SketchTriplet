@@ -7,6 +7,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
+
 class flickr15k_dataset(Dataset):
     def __init__(self, train=True, root='../deep_hashing', transforms=None):
         self.root = root
@@ -110,6 +111,7 @@ def random_select_sketch(cls_num, sketch_set_path):
     sketch_path = os.path.join(sketch_set_path, user_select, (cls_num+'.png'))
     return sketch_path
 
+
 def init_flickr15k_dataloader(batchSize, img_size, root):
     """load dataset"""
     normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
@@ -128,6 +130,7 @@ def init_flickr15k_dataloader(batchSize, img_size, root):
 
     return train_loader, test_loader
 
+
 def init_flickr15k_dataset(img_size):
     """load dataset"""
     normalize = transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
@@ -138,6 +141,7 @@ def init_flickr15k_dataset(img_size):
         normalize
     ])
     return flickr15k_dataset(train=False, transforms=transform)
+
 
 if __name__ == '__main__':
     test_set = flickr15k_dataset(train=False)

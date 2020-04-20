@@ -9,11 +9,13 @@ refer to this repo:
     https://github.com/weixu000/DSH-pytorch
 """
 
+
 def feed_random_seed(seed=np.random.randint(1, 10000)):
     """feed random seed"""
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
+
 
 def timing(f):
     """print time used for function f"""
