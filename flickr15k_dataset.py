@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 class flickr15k_dataset(Dataset):
     def __init__(self, train=True, root='../deep_hashing', transforms=None):
         self.root = root
-        self.gt_path = os.path.join(self.root, 'groundtruth')
+        self.gt_path = os.path.join(self.root, 'dataset/groundtruth')
         self.img_set_path = os.path.join(self.root, 'dataset/Flickr_15K_edge2')
         self.sketch_set_path = os.path.join(self.root, 'dataset/330sketches')
         self.gt = {}
@@ -140,7 +140,7 @@ def init_flickr15k_dataset(img_size):
         transforms.ToTensor(),
         normalize
     ])
-    return flickr15k_dataset(train=False, transforms=transform)
+    return flickr15k_dataset(train=False, root='./', transforms=transform)
 
 
 if __name__ == '__main__':
