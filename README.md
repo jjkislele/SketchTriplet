@@ -12,12 +12,12 @@ The network seems able to reproduce the results though, there is still much room
 
 ## Dependency
 - pytorch 0.4.0 with torchvision 0.2.1
-- python 3.6.4 
+- python 3.6.4
 - anaconda 4.4.10 recommend
 
 ## How to Run
-First, the pretrained model based on Flickr15k can be downloaded [here](https://drive.google.com/open?id=1oUDCTENBzdBok7rjB_B8zHE3mwdw_0ve). And the dataset ***Flickr15k*** can be downloaded [here](https://drive.google.com/open?id=13AFiwNh4FMks_jGfL4UDntMf0lHL6BTQ). Resized ***Flickr15k*** used for preview is provided [here](https://drive.google.com/open?id=13AFiwNh4FMks_jGfL4UDntMf0lHL6BTQ). ***330sketches*** can be downloaded [here](https://drive.google.com/open?id=16SOyCbC1H6HYJ2uT9ECDRRMj70_zbvmb) and ***groundtruth*** is provided [here](https://drive.google.com/open?id=14GEGBW9QgAqAC9_Jh6A5XMeTLWVE9xY2).
-Canny edge detection procedure should be carried out to produce images' edge maps.
+First, the ***pretrained model*** based on Flickr15k can be downloaded [here](https://drive.google.com/open?id=1oUDCTENBzdBok7rjB_B8zHE3mwdw_0ve). And the dataset ***Flickr15k*** can be downloaded [here](https://drive.google.com/open?id=13AFiwNh4FMks_jGfL4UDntMf0lHL6BTQ). Resized ***Flickr15k*** used for preview is provided [here](https://drive.google.com/open?id=13AFiwNh4FMks_jGfL4UDntMf0lHL6BTQ). ***330sketches*** can be downloaded [here](https://drive.google.com/open?id=16SOyCbC1H6HYJ2uT9ECDRRMj70_zbvmb) and ***groundtruth*** is provided [here](https://drive.google.com/open?id=14GEGBW9QgAqAC9_Jh6A5XMeTLWVE9xY2).
+Canny edge detection procedure should be carried out to produce images' edge maps. Also, ***Flickr_15K_edge2*** for images' edge maps is provided [here](https://drive.google.com/open?id=1lUxA-eT0kUUZcffpDKVtHhuNUZKhP6xt).
 
 Second, you should modify the root path to ***Flickr15k*** at ``./train.py``.
 The output of the model will be stored at ``./out/flickr15k_yymmddHHMM/*.pth``.
@@ -26,8 +26,8 @@ The default root path is ``../deep_hashing`` according to my case.
 Third, run ``./train.py`` to train the network. Use ``./extract_feat_sketch.py`` and ``./extract_feat_photo.py`` to extract features from sketches and photograps.
 The features will be stored at ``./out_feat/flickr15k_yymmddHHMM/feat_sketch.npz`` and ``./out_feat/flickr15k_yymmddHHMM/feat_photo.npz``.
 
-Last, use ``./retrieval.py`` to gain results. The retrieval list will be stored at ``./out_feat/flickr15k_yymmddHHMM/result``. 
-To be consistent with ***330sketches*** query's file structure, results of every query are saved in group and sorted by similariy. 
+Last, use ``./retrieval.py`` to gain results. The retrieval list will be stored at ``./out_feat/flickr15k_yymmddHHMM/result``.
+To be consistent with ***330sketches*** query's file structure, results of every query are saved in group and sorted by similariy.
 
 ## Code Structure
 ```
@@ -36,6 +36,7 @@ To be consistent with ***330sketches*** query's file structure, results of every
 │   └── pr_curve.png
 ├── dataset
 │   ├── 330sketches
+│   ├── groundtruth
 │   └── Flickr_15K_edge2
 ├── extract_feat_photo.py
 ├── extract_feat_sketch.py
@@ -61,7 +62,7 @@ To be consistent with ***330sketches*** query's file structure, results of every
 
 ## Results - Flickr15k
 
-We will train the network ***SketchTriplet*** on the dataset ***Flickr15k***. 
+We will train the network ***SketchTriplet*** on the dataset ***Flickr15k***.
 The network takes an anchor (sketch input), positive (a photograph edgemap of same class as an anchor) and negative (photograph edgemaps of different class than an anchor) examples.
 
 Some Parameters are shown as follows:
@@ -76,7 +77,8 @@ Some Parameters are shown as follows:
 - Loss function: torch.nn.TripletMarginLoss
     - margin: 1.0
     - p: 2.0
-    
+
+
 After 500 epochs of training, here are the pr curve we get for testing set.
 
 <p align="center">
